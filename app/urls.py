@@ -21,6 +21,6 @@ from . import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.inicio, name="inicio"),
-    path('', include('usuarios.urls')),
+    path('industriawquick.herokuapp.com', views.inicio, name="inicio"),
+    path('industriawquick.herokuapp.com', include('usuarios.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
