@@ -79,7 +79,7 @@ WSGI_APPLICATION = 'app.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 DATABASES = {
-    'default': dj_database_url.config(default=config('HEROKU_POSTGRESQL_AQUA_URL'))
+    'default': dj_database_url.config(default=config('DATABASE_URL'))
 }
 
 
