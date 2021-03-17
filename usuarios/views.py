@@ -1,5 +1,6 @@
 import datetime
 import os
+from django.conf import settings
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
@@ -9,6 +10,7 @@ from django.views.generic.edit import FormView
 from django.contrib.auth import login, logout
 from django.http import HttpResponseRedirect
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView
+from django.core.mail import send_mail
 from usuarios import forms, models
 
 path = os.path.dirname(__file__)
@@ -23,6 +25,21 @@ class Registrar(CreateView):
         # Si el formulario es valido se guarda lo que se obtiene de él en una variable usuario
         # luego se hace login con ese usuario y se redirige al index
         usuario = form.save()
+        nombre = form.cleaned_data.get('nombre')
+        remitente = settings.EMAIL_HOST_USER
+        contenido = f"""
+            Te damos la bienvenida {nombre} a WQuick
+            
+            Puedes acceder a tu cuenta de WQuick iniciando sesión
+            en el siguiente enlace: https://industriawquick.herokuapp.com/login/
+
+            Te invitamos a que publiques tus proyectos o trabajes como freelancer con los
+            servicios que ofrecemos: https://www.freelancermap.com/blog/es/sobre-freelancermap/
+
+            Fecha de registro: {datetime.datetime.now().strftime('%d/%m/%Y')}
+        """
+        destinatarios = [form.cleaned_data.get('correo')]
+        send_mail('Registro exitoso a WQuick', contenido, remitente, destinatarios)
         login(self.request, usuario)
         return redirect('/')
     
