@@ -57,7 +57,8 @@ class frmRegistar(UserCreationForm):
         # metodo para obviar mayusculas y minusculas en el nombre de usuario
         nombre = self.cleaned_data.get('nombre')
         usuarioEncontrado = models.Usuario.objects.filter(
-            nombre__iexact=nombre)
+            Q(nombre__iexact=nombre) |  Q(correo__iexact=nombre))
+
         if usuarioEncontrado:
             raise forms.ValidationError('Nombre de usuario no disponible')
         return nombre
@@ -97,12 +98,15 @@ class frmLogin(AuthenticationForm):
     def clean_username(self):
         # metodo para obviar mayusculas y minusculas en el nombre de usuario
         nombre = self.cleaned_data.get('username')
+       
         usuarioEncontrado = models.Usuario.objects.filter(
-            Q(nombre__iexact=nombre) | Q(correo__iexact=nombre))
-
+                Q(nombre__iexact=nombre) | 
+                Q(correo__iexact=nombre)
+            ).values('nombre')
+        
         if usuarioEncontrado:
-            nombre = usuarioEncontrado[0]
+            nombre = usuarioEncontrado[0]['nombre']
         else:
-            raise forms.ValidationError(
-                'Nombre de usuario o correo electrónico incorrecto')
+            raise forms.ValidationError('Nombre de usuario o correo electrónico incorrecto')
         return nombre
+    

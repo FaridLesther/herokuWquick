@@ -48,7 +48,7 @@ class Usuario(AbstractBaseUser):
     def __str__(self):
         # metodo de sobrescritura de la funcion to_string esto representa
         # que se mostrara al imprimir el objeto usuario
-        return f'{self.nombre}'
+        return f'nombre: {self.nombre}, correo: {self.correo}, admin: {self.admin}'
 
     def has_perm(self, perm, obj=None):
         #  metodo para poder usar este modelo en el administrador de jango
