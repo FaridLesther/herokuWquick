@@ -44,7 +44,7 @@ class Registrar(CreateView):
             en el siguiente enlace: https://industriawquick.herokuapp.com/login/
 
             Te invitamos a que publiques tus proyectos o trabajes como freelancer con los
-            servicios que ofrecemos: https://industriawquick.herokuapp.com/elige/
+            servicios que ofrecemos: https://industriawquick.herokuapp.com/elige
 
             Fecha de registro: {datetime.datetime.now().strftime('%d/%m/%Y')}
         """
