@@ -4,29 +4,20 @@
 <html lang="es">
 
 <head>
-   <meta charset="UTF-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>{{ titulo }}</title>
-   <!--Iconos de google-->
-   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-   <!-- CDN de Materialize CSS -->
-   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-   <!--Logo de la empresas en las pestañas-->
-   <link rel="icon" type="image/png" href="{% static 'img/Logo.png' %}">
-   <link rel="stylesheet" href="{% static 'css/WQuick.css' %}">
+   {% include "frames/head.html" %}
 </head>
 
 <body class="FondoPantalla">
 
    <div class="Centro">
 
-      <div class="Sombras FondoBlanco">
+      <div class="Sombras FondoBlanco" style="background-color: #424242;">
          <a href="/">
             <div style="text-align: center;">
                <img src="{% static 'img/transparencia.png' %}" style="width: 40%;">
             </div>
          </a>
-         <span style="color: #000;font-size: 20px;font-weight: bold;">
+         <span style="color: white;font-size: 20px;font-weight: bold;">
             Iniciar Sesión
          </span><br>
          <div class="Bajar">
@@ -50,13 +41,13 @@
 
                   <table style="border-collapse: inherit;">
                      <tr>
-                        <th><label style="color: #000;font-size: 15px;">Usuario o correo</label></th>
+                        <th><label style="color:white;font-size: 15px;">Usuario o correo</label></th>
                         <th>
                            {{ form.username }}
                         </th>
                      </tr>
                      <tr>
-                        <th><label style="color: #000;font-size: 15px;">Contraseña</label></th>
+                        <th><label style="color: white;font-size: 15px;">Contraseña</label></th>
                         <th>
                            {{ form.password }}
                         </th>
@@ -79,5 +70,6 @@
    <!-- CDN de Materialize JavaScript -->
    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </body>
+<!-- Cambio de nombre -->
 
 </html>

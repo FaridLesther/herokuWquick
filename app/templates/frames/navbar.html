@@ -1,128 +1,290 @@
 {% load static %}
-<div class="navbar-fixed">
-    <nav class="nav-wrapper white black-text">
+<div class="navbar-fixed" style="overflow: hidden;">
+    <nav class="nav-wrapper black">
         <div class="nav-wrapper" style="margin-left: 20px; margin-right: 20px;">
-            <a href="" id="logo" class="left">
-                <img src="{%static 'img/Logo-large.jpeg'%}" alt="" style="height: 55px;">
+            <a href="/" id="logo" class="left">
+                <img src="{%static 'img/transparencia.png'%}" alt="" style="height: 55px;">
             </a>
 
             <!-- Barra de búsqueda -->
-            <ul class="hide-on-med-and-down left">
+            <ul class="hide-on-med-and-down left" id="contenedorBusqueda">
                 <li>
                     <div class="center row">
-                        <div class="col s12 ">
-                            <div class="row" id="topbarsearch">
-                                <div class="input-field col s6 s12 black-text">
-                                    <i class=" material-icons prefix">search</i>
-                                    <input type="text" placeholder="buscar" id="autocomplete-input"
-                                        class="autocomplete ">
+                        <form method="get" id="frm-buscar">
+                            <div class="col s12 ">
+                                <div class="row">
+                                    <div class="input-field col s12">
+                                        <a id="btn-buscar" onclick='realizarBusqueda()'><i
+                                                class=" material-icons prefix">search</i></a>
+                                        <input autocomplete="off" type="text" placeholder="buscar" name="buscar"
+                                            id="autocomplete-input" class="autocomplete" style="margin-left: 60px;">
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </form>
                     </div>
                 </li>
             </ul>
 
+            <!--boton barra de busqueda en dispositivos moviles -->
+            <a href="" id="lupa" class="sidenav-trigger">
+                <i class="material-icons">search</i>
+            </a>
+
             <!--boton menu responsivo -->
             <ul>
-                <li class="right">
-                    <a href="#" data-target="menu-responsive" class="sidenav-trigger">
-                        <i class="material-icons black-text">menu</i>
-                    </a>
-                </li>
-            </ul>
-            <!-- Lista desplegable de sesion no responsiva -->
-            <ul class="right hide-on-med-and-down">
-                <li>
-                    <a href="" class="dropdown-trigger black-text" data-target="id_drop" style="min-width: 125px;">
-                        {% if user.nombre %}
-                        {{ user.nombre }}
-                        {% else %}
-                        Sesión
-                        {% endif %}
-                        <i class="material-icons right">arrow_drop_down</i>
+                <li class="right" id="menu-usuario">
+                    <a style="max-width: 10px; margin-left: -50px;" data-target="menu-responsive"
+                        class="sidenav-trigger">
+                        <i class="material-icons">menu</i>
                     </a>
                 </li>
             </ul>
 
+            <!-- Lista desplegable de sesion no responsiva -->
+            <ul class="right hide-on-med-and-down">
+                {% if user.nombre %}
+                <li data-target="id_drop" style="margin-right: 5px; font-weight: bold;">
+                    {{ user.nombre|escape }}
+                </li>
+                <li class="dropdown-trigger auto-hover " data-target="id_drop">
+                    <i>
+                        {% if user.imagen %}
+                        <img src="{{user.imagen.url}}" class="responsive-img circle" name="avatar" alt="Avatar"
+                            style="height: 45px; width: 45px; margin-top: 8px;">
+                        {% else %}
+                        <img class="responsive-img circle" alt="Avatar" id="avatar"
+                            style="height: 45px; width: 45px; margin-top: 8px;">
+                        {% endif %}
+                    </i>
+                </li>
+                {% else %}
+                <li class="dropdown-trigger auto-hover " data-target="id_drop">
+                    ¡Bienvenido!
+                    <i class="material-icons right">arrow_drop_down</i>
+                </li>
+                {% endif %}
+            </ul>
+
             <!-- Botones random que no sabremos si dejaremos -->
             <ul class="hide-on-med-and-down right">
-                <li><i href="" class="large material-icons black-text"
-                        style="margin-left: 10px; margin-right: 20px;">message</i></li>
-                <li><i href="" class="large material-icons black-text">settings</i></li>
+                <li class="dropdown-trigger notificaciones" data-target="menu-notificaciones">
+                    {% if numNotificaciones > 0 %}
+                    <span id="noti" class="new badge" data-badge-caption="nuevos">{{numNotificaciones}}</span>
+                    {% endif %}
+                    <a href=""><i class="large material-icons"
+                            style="margin-left: 10px; margin-right: 20px;">message</i></a>
+                </li>
+                <!--<li><i href="" class="large material-icons " style="margin-right: 20px;">settings</i></li>-->
             </ul>
 
         </div>
     </nav>
 </div>
 
-<!--Menú de sessión no responsivo-->
-<ul class="dropdown-content" id="id_drop">
-    {% if user.nombre %}
-    <li><a href="{% url 'logout' %}" class="d_dark black-text">Cerrar sesión</a></li>
+<!--Menú de notificaciones en escritorio-->
+<ul class="dropdown-content" id="menu-notificaciones" style="min-width: 435px;">
+    {% if notificaciones %}
+
+    {% for notificacion in notificaciones %}
+    <li>
+        <a href="{% url 'solicitudesF' %}?solicitud={{notificacion.id}}" class="link white-text" style="font-size: 15px;">
+            Solicitud para trabajar en {{notificacion.asunto}} de: {{notificacion.freelancer_id}}
+        </a>
+    </li>
+    {% endfor %}
+
     {% else %}
-    <li><a href="login" class="black-text">Iniciar sesión</a></li>
+
+    <li>
+        <a class="link">No tiene nuevas notificaciones</a>
+    </li>
+
+    {% endif %}
+</ul>
+
+<!--Menú de sessión no responsivo-->
+<ul class="dropdown-content" id="id_drop" style="min-width: 135px;">
+    {% if user.nombre %}
+    {% if not titulo == 'Perfil de usuario' %}
+    <li><a href="{% url 'perfil' %}" class="link white-text">Ver perfil</a></li>
+    {% endif %}
+    <li><a href="{% url 'logout' %}" class="link white-text">Cerrar sesión</a></li>
+    {% else %}
+    <li><a href="{% url 'login' %}" class="link white-text">Iniciar sesión</a></li>
     <li class="divider"></li>
-    <li><a href="registrar" class="black-text">Registrarse</a></li>
+    <li><a href="{% url 'registrar' %}" class="link white-text">Registrarse</a></li>
     {% endif %}
 </ul>
 
 <!--Contenido del menú responsivo-->
 <ul class="sidenav" id="menu-responsive">
-
     <li class="center">
         {% if user.nombre %}
-        <h5>{{user.nombre}}</h5>
+        {% if user.imagen %}
+        <i><img src="{{user.imagen.url}}" name="avatar" class="responsive-img circle" alt="Avatar"
+                style="height: 50px; width: 50px; margin-bottom: -30px;"></i>
         {% else %}
-        <h5>Sesión</h5>
+        <i><img class="responsive-img circle" alt="Avatar" id="avatar2"
+                style="height: 50px; width: 50px; margin-bottom: -25px;"></i>
+        {% endif %}
+        <h5 class="grey-text text-lighten-3">{{user.nombre|escape}}
+
+            {% if titulo == 'Perfil de usuario' %}
+            <form id="fileinfo" name="fileinfo" enctype="multipart/form-data">{% csrf_token %}
+                <div class="file-field input-field" style="margin-top: -3px;">
+                    <a>
+                        <span class="material-icons">add_a_photo</span>
+                        <input type="file" id="id_foto" name="foto">
+                        <!--<input type="file" id='file-imagen'>-->
+                    </a>
+                    <div class="file-path-wrapper">
+                        <input id="txt-imagen2" onchange="activarGuardar()" class="file-path validate imagen"
+                            placeholder="Cambiar imagen" type="text"
+                            style=" border: 0px; margin-left: 80px; margin-bottom: -16px; margin-top: -15px;">
+                    </div>
+                </div>
+            </form>
+            {% endif %}
+
+        </h5>
+        {% else %}
+        <h5 class="grey-text text-lighten-3">Sesión</h5>
         {% endif %}
     </li>
-    <li class="divider"></li>
+    <li class="divider side-divider" style=" margin-left: 20px;"></li>
 
     {% if user.nombre %}
+    {% if not titulo == 'Perfil de usuario' %}
     <li>
-        <a href="{% url 'logout' %}" class="black-text" style="font-size: 15px;">
-            <i class="material-icons black-text" style="font-size: 35px;">exit_to_app</i>
-            Cerrar sesión
+        <a href="{% url 'perfil' %}" class="" style="font-size: 15px;">
+            <i class="material-icons grey-text text-lighten-2" style="font-size: 35px;">account_box</i>
+            <span>Ver perfil</span>
+        </a>
+    </li>
+    <li class="divider side-divider" style=" margin-left: 20px;"></li>
+    {% endif %}
+    <li>
+        <a href="{% url 'logout' %}" class="" style="font-size: 15px;">
+            <i class="material-icons grey-text text-lighten-2" style="font-size: 35px;">exit_to_app</i>
+            <span style="color: #ffc19dde;">Cerrar sesión</span>
         </a>
     </li>
     {% else %}
     <li>
-        <a href="login" class="black-text" style="font-size: 15px;">
-            <i class="material-icons black-text" style="font-size: 35px;">account_box</i>
-            Iniciar sesión
+        <a href="{% url 'login' %}" class="" style="font-size: 15px;">
+            <i class="material-icons grey-text text-lighten-2" style="font-size: 35px;">account_box</i>
+            <span>Iniciar sesión</span>
         </a>
     </li>
-    <li class="divider"></li>
+    <li class="divider side-divider" style=" margin-left: 20px;"></li>
 
     <li>
-        <a href="registrar" class="black-text" style="font-size: 15px;">
-            <i class="material-icons black-text" style="font-size: 35px;">recent_actors</i>
-            Registrarse
+        <a href="{% url 'registrar' %}" class="" style="font-size: 15px;">
+            <i class="material-icons grey-text text-lighten-2" style="font-size: 35px;">recent_actors</i>
+            <span>Registrarse</span>
         </a>
     </li>
     {% endif %}
-    <li class="divider"></li>
+
+    {% if not titulo == 'Mis proyectos' %}
+    <li class="divider side-divider side-divider" style=" margin-left: 20px;" style="margin-top: 20px;"></li>
+    <li><a style="color: #ffc19dde;" href="{% url 'misProyectos' %}">
+            <i class="material-icons grey-text text-lighten-2" style="font-size: 35px;">message</i>
+            Mis Proyectos
+        </a></li>
+    {% endif %}
+
+    <li class="divider side-divider side-divider" style=" margin-left: 20px;"></li>
+    <li><a style="color: #ffc19dde;" href="{% url 'crearProyecto' %}">
+            <i class="material-icons grey-text text-lighten-2" style="font-size: 35px;">message</i>
+            Crear Proyecto
+        </a></li>
+
+    <li class="divider side-divider side-divider" style=" margin-left: 20px;"></li>
+    <li><a style="color: #ffc19dde;" href="#!">
+            <i class="material-icons grey-text text-lighten-2" style="font-size: 35px;">message</i>
+            Freelancers Contratados
+        </a></li>
+
+    <li class="divider side-divider side-divider" style=" margin-left: 20px;"></li>
+    <li><a style="color: #ffc19dde;" href="{% url 'solicitudesF' %}">
+            <i class="material-icons grey-text text-lighten-2" style="font-size: 35px;">message</i>
+            Solicitudes de Freelancers</a>
+    </li>
+
+    <li class="divider side-divider side-divider" style=" margin-left: 20px;"></li>
+
 
     <li class="center">
-        <h5>Otros</h5>
+        <h5 class="grey-text text-lighten-3">Otros</h5>
     </li>
-    <li class="divider"></li>
+    <li class="divider side-divider" style=" margin-left: 20px;"></li>
 
     <li>
-        <a href="" class="black-text" style="font-size: 15px;">
-            <i class="material-icons black-text" style="font-size: 35px;">message</i>
-            Notificaciones
+        <a href="" class="" style="font-size: 15px;">
+            <i class="material-icons grey-text text-lighten-2" style="font-size: 35px;">message</i>
+            <span style="color: #ffc19dde;">Notificaciones</span>
         </a>
     </li>
-    <li class="divider"></li>
+    <li class="divider side-divider" style=" margin-left: 20px;"></li>
 
     <li>
-        <a href="" class="black-text" style="font-size: 15px;">
-            <i class="material-icons black-text" style="font-size: 35px;">settings</i>
-            Configuración
+        <a href="" class="white-text" style="font-size: 15px;">
+            <i class="material-icons grey-text text-lighten-2" style="font-size: 35px;">settings</i>
+            <span style="color: #ffc19dde;">Configuración</span>
         </a>
     </li>
-    <li class="divider"></li>
+    <li class="divider side-divider" style=" margin-left: 20px;"></li>
 
 </ul>
+{% if user.nombre %}
+{% if not user.imagen %}
+<script src="{% static 'js/avatar.js' %}">
+</script>
+<script>
+    let nombre = "{{ user.nombre|escape }}";
+    document.getElementById("avatar").src = generateAvatar(nombre[0]);
+    document.getElementById("avatar2").src = generateAvatar(nombre[0]);
+</script>
+{% endif %}
+{% endif %}
+<script>
+    function realizarBusqueda(evento) {
+        let busqueda = document.getElementById('autocomplete-input').value;
+        if (busqueda != '') {
+            window.location.href = "{% url 'buscarProyectos' %}?buscar=" + busqueda;
+        } else {
+            window.location.href = "{% url 'buscarProyectos' %}";
+        }
+    }
+
+    let lupa = document.getElementById('lupa');
+    let logo = document.getElementById('logo');
+    let menu = document.getElementById('menu-usuario');
+    let barraB = document.getElementById('contenedorBusqueda');
+    let btnBusqueda = document.getElementById('btn-buscar');
+    let txtbusqueda = document.getElementById('autocomplete-input');
+
+    lupa.onclick = (evento) => {
+        evento.preventDefault();
+        lupa.className = 'hide-on-med-and-down';
+        logo.style.display = 'none';
+        menu.style.display = 'none';
+        barraB.className = '';
+        btnBusqueda.style = 'margin-left: -30px;';
+        txtbusqueda.style = 'margin-left: 25px; width: 110%;';
+        txtbusqueda.focus();
+    }
+
+    txtbusqueda.onblur = () => {
+        if (txtbusqueda.value == '') {
+            lupa.className = 'sidenav-trigger';
+            logo.style.display = 'inline-flex';
+            menu.style.display = 'inline-flex';
+            barraB.className = 'hide-on-med-and-down left';
+            btnBusqueda.style = '';
+            txtbusqueda.style = 'margin-left: 60px;';
+        }
+    }
+</script>

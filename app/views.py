@@ -3,6 +3,9 @@ import os
 # shortcuts-> modulo para  renderizar plantillas html de forma rapida
 from django.shortcuts import render
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView
+from django.db.models import Count
+from usuarios import models
+from usuarios.src import funciones
 
 path = os.path.dirname(__file__)
 
@@ -15,4 +18,21 @@ def inicio(request):
 
     # diccionario con parametros que se cargaran en la plantilla html
     parametros = {"titulo": 'Inicio'}
+
+    datos = {}
+    proyectos = models.Proyecto.objects.all().exclude(usuario_id=request.user.id).values(
+        'id', 'titulo', 'tipo'
+    ).annotate(Count('id')).order_by('-id')[:10]
+
+    for proyecto in proyectos:
+        datos[proyecto['titulo']] = '../static/img/diseñoweb.jpg'
+
+    parametros['busqueda'] = datos
+
+    listaNotificaciones = funciones.nuevasNotificaciones(request.user.id)
+
+    if listaNotificaciones.__len__() > 0:
+        parametros['notificaciones'] = listaNotificaciones
+        parametros['numNotificaciones'] = listaNotificaciones.__len__()
+
     return render(request, 'index.html', parametros)

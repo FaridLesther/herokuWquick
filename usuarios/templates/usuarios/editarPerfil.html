@@ -1,0 +1,235 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    {% include 'frames/head.html' %}
+</head>
+
+<body>
+    {% include 'frames/navbar.html' %}
+    {% include 'frames/sidebar.html' %}
+    <main>
+        {% if form.nombre.errors %}
+        <a id="alerta" class="alerta" style="display: none;"
+            onclick="alerta('{{form.nombre.errors.as_text}}')">Toast!</a>
+        {% endif %}
+
+        {% if form.apellido.errors %}
+        <a id="alerta" class="alerta" style="display: none;"
+            onclick="alerta('{{form.apellido.errors.as_text}}')">Toast!</a>
+        {% endif %}
+
+        {% if form.correo.errors %}
+        <a id="alerta" class="alerta" style="display: none;"
+            onclick="alerta('{{form.correo.errors.as_text}}')">Toast!</a>
+        {% endif %}
+
+        {% if form.profesion.errors %}
+        <a id="alerta" class="alerta" style="display: none;"
+            onclick="alerta('{{form.profesion.errors.as_text}}')">Toast!</a>
+        {% endif %}
+
+        {% if form.telefono.errors %}
+        <a id="alerta" class="alerta" style="display: none;"
+            onclick="alerta('{{form.telefono.errors.as_text}}')">Toast!</a>
+        {% endif %}
+
+        {% if form.descripcion.errors %}
+        <a id="alerta" class="alerta" style="display: none;"
+            onclick="alerta('{{form.descripcion.errors.as_text}}')">Toast!</a>
+        {% endif %}
+
+        {% if form.idiomas.errors %}
+        <a id="alerta" class="alerta" style="display: none;"
+            onclick="alerta('{{form.idiomas.errors.as_text}}')">Toast!</a>
+        {% endif %}
+
+        <div class="row mcard">
+            <div class="col s12 m10 offset-m1">
+                <section style="padding: 5px;">
+                    <div class="row">
+                        <div class="col s12 m10 offset-m1">
+                            <div class="container-fluid">
+                                <form id="frm-editarfreelancer" method="POST">{% csrf_token %}
+                                    <div class="container-fluid center">
+                                        <label style="font-size: 20px;">Edita tus Datos</label>
+                                        <br><br>
+                                    </div>
+
+                                    <div class="col s12 m6">
+                                        <div class="input-field col s12">
+                                            <i class="material-icons prefix">description</i>
+                                            {{form.nombre}}
+                                            <label for="id_nombre">Nombre</label>
+                                        </div>
+
+                                        <div class="input-field col s12">
+                                            <i class="material-icons prefix">description</i>
+                                            {{form.apellido}}
+                                            <label for="txt-apellido">Apellido</label>
+                                        </div>
+
+                                        <div class="col s1">
+                                            <i class="material-icons">
+                                                language
+                                            </i>
+                                        </div>
+                                        <div class="col s11">
+                                            <label style="font-size: 15px; margin-left: 10px;">Idiomas:</label>
+                                        </div>
+                                        {{form.idiomas}}
+                                        <div class="col s5">
+                                            <p>
+                                                <label>
+                                                    <input id='Ingles'
+                                                        {% if 'Ingles' in freelancer.idiomas %}{{'checked'}}{% endif %}
+                                                        type="checkbox" value='0' />
+                                                    <span style="font-size: small;">Ingles</span>
+                                                </label>
+                                            </p>
+                                            <p>
+                                                <label>
+                                                    <input type="checkbox"
+                                                        {% if 'Chino' in freelancer.idiomas %}{{'checked'}}{% endif %}
+                                                        value='1' />
+                                                    <span style="font-size: small;">Chino</span>
+                                                </label>
+                                            </p>
+                                            <p>
+                                                <label>
+                                                    <input type="checkbox"
+                                                        {% if 'Alemán' in freelancer.idiomas %}{{'checked'}}{% endif %}
+                                                        value='2' />
+                                                    <span style="font-size: small;">Alemán</span>
+                                                </label>
+                                            </p>
+                                        </div>
+                                        <div class="col s6">
+                                            <p>
+                                                <label>
+                                                    <input type="checkbox"
+                                                        {% if 'Francés' in freelancer.idiomas %}{{'checked'}}{% endif %}
+                                                        value='3' />
+                                                    <span style="font-size: small;">Francés</span>
+                                                </label>
+                                            </p>
+                                            <p>
+                                                <label>
+                                                    <input type="checkbox"
+                                                        {% if 'Portugués' in freelancer.idiomas %}{{'checked'}}{% endif %}
+                                                        value='4' />
+                                                    <span style="font-size: small;">Portugués</span>
+                                                </label>
+                                            </p>
+                                            <p>
+                                                <label>
+                                                    <input type="checkbox"
+                                                        {% if 'Japonés' in freelancer.idiomas %}{{'checked'}}{% endif %}
+                                                        value='5' />
+                                                    <span style="font-size: small;">Japonés</span>
+                                                </label>
+                                            </p>
+                                        </div>
+                                        <div class="input-field col s12">
+                                            <div class="select-wrapper">
+                                                {{form.xp}}
+                                            </div>
+                                            <label>Experiencia profesional</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col s12 m6" style="margin-bottom: 20px;">
+                                        <div class="input-field col s12">
+                                            <i class="material-icons prefix">mail</i>
+                                            {{form.correo}}
+                                            <label for="txt-correo">Correo electrónico</label>
+                                        </div>
+
+                                        <div class="input-field col s12">
+                                            <i class="material-icons prefix">work</i>
+                                            {{form.profesion}}
+                                            <label for="txt-profesion">Profesión</label>
+                                        </div>
+
+                                        <div class="input-field col s12">
+                                            <i class="material-icons prefix">call</i>
+                                            {{form.telefono}}
+                                            <label for="txt-telefono">Teléfono</label>
+                                        </div>
+
+                                        <div class="col s1">
+                                            <i class="material-icons">short_text</i>
+                                        </div>
+                                        <div class="col s11">
+                                            <label class="grey-text text-lighten-1"
+                                                style="font-size: 15px;">Descripción:</label>
+                                            <div>
+                                                {{form.descripcion}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="center" style="margin-bottom: 20px;">
+                                        <a href="{% url 'perfil' %}" class="btn grey darken-1">Cancelar</a>
+                                        <button id="btn-guardar" type="submit" class="btn green darken-1;">Guardar
+                                            Cambios </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <script src="{% static 'js/WQuick.js' %}"></script>
+    {% include 'frames/autocomplete.html' %}
+    <script>
+        alertas = document.getElementsByClassName('alerta');
+        for (let i = 0; i < alertas.length; i++) {
+            alertas[i].click();
+        }
+
+        nombre = document.getElementById('id_nombre');
+        nombre.value = '{{freelancer.nombre}}';
+
+        apellido = document.getElementById('id_apellido');
+        apellido.value = '{{freelancer.apellido}}';
+
+        descripcion = document.getElementById('txt-descripcion');
+        descripcion.value = `{{freelancer.descripcion}}`;
+        descripcion.style = 'max-width: 100%; border: 1px dotted #848484; height: 120px;'
+
+        telefono = document.getElementById('id_telefono');
+        telefono.value = '{{freelancer.telefono}}';
+
+        correo = document.getElementById('id_correo');
+        correo.value = '{{freelancer.correo}}';
+
+        profesion = document.getElementById('id_profesion');
+        profesion.value = '{{freelancer.profesion}}';
+
+        xp = document.getElementById('id_xp');
+        xp.value = '{{freelancer.xp}}';
+
+        guardarEditar = document.getElementById('btn-guardar')
+        guardarEditar.onclick = (evento) => {
+            evento.preventDefault();
+            var listaIdiomas = document.getElementById('id_idiomas').options;
+            for (let i = 0; i < listaIdiomas.length; i++) {
+                listaIdiomas[i].selected = false;
+            }
+            idiomas = document.querySelectorAll('input[type="checkbox"]');
+            idiomas.forEach(chk_idioma => {
+                if (chk_idioma.checked) {
+                    listaIdiomas[chk_idioma.value].selected = true;
+                }
+            });
+
+            document.getElementById('frm-editarfreelancer').submit();
+        }
+    </script>
+</body>
+
+</html>

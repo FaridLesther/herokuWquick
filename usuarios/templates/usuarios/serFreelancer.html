@@ -1,0 +1,213 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- BOOTSTRAP STYLES-->
+    <link href="{% static 'tema/bs-advance-admin/advance-admin/assets/css/bootstrap.css' %}" rel="stylesheet" />
+    <!-- FONTAWESOME STYLES-->
+    <link href="{% static 'tema/bs-advance-admin/advance-admin/assets/css/font-awesome.css' %}" rel="stylesheet" />
+    <!--CUSTOM MAIN STYLES-->
+    <link href="{% static 'tema/bs-advance-admin/advance-admin/assets/css/custom.css' %}" rel="stylesheet" />
+    {% include "frames/head.html" %}
+</head>
+<body class="FondoPantalla">
+    {% include 'frames/navbar.html' %}
+
+    <main>
+        <div class="row">
+            <div class="col s12 m8 offset-m2">
+                <div class="card">
+                    <div class="card-title center grey darken-2" style="color:#d6d6d6;">
+                        Trabaja como Freelancer
+                    </div>
+
+                    <div class="card-content">
+                        {% if form.nombre.errors %}
+                        <a id="alerta" class="alerta" style="display: none;"
+                            onclick="alerta('{{form.nombre.errors.as_text}}')">Toast!</a>
+                        {% endif %}
+
+                        {% if form.apellido.errors %}
+                        <a id="alerta" class="alerta" style="display: none;"
+                            onclick="alerta('{{form.apellido.errors.as_text}}')">Toast!</a>
+                        {% endif %}
+
+                        {% if form.correo.errors %}
+                        <a id="alerta" class="alerta" style="display: none;"
+                            onclick="alerta('{{form.correo.errors.as_text}}')">Toast!</a>
+                        {% endif %}
+
+                        {% if form.profesion.errors %}
+                        <a id="alerta" class="alerta" style="display: none;"
+                            onclick="alerta('{{form.profesion.errors.as_text}}')">Toast!</a>
+                        {% endif %}
+
+                        {% if form.telefono.errors %}
+                        <a id="alerta" class="alerta" style="display: none;"
+                            onclick="alerta('{{form.telefono.errors.as_text}}')">Toast!</a>
+                        {% endif %}
+
+                        {% if form.descripcion.errors %}
+                        <a id="alerta" class="alerta" style="display: none;"
+                            onclick="alerta('{{form.descripcion.errors.as_text}}')">Toast!</a>
+                        {% endif %}
+
+                        {% if form.idiomas.errors %}
+                        <a id="alerta" class="alerta" style="display: none;"
+                            onclick="alerta('{{form.idiomas.errors.as_text}}')">Toast!</a>
+                        {% endif %}
+
+                        <form method="POST" id="frm_serFreelancer" class="form-register">{% csrf_token %}
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Nombre</label>
+                                        {{form.nombre}}
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Apellido</label>
+                                        {{form.apellido}}
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Correo</label>
+                                        {{form.correo}}
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Profesión</label>
+                                        {{form.profesion}}
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Nivel de Experiencia</label>
+                                        {{form.xp}}
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Numero de Telefono</label>
+                                        {{form.telefono}}
+                                    </div>
+                                </div>
+
+                                <div class="container-fluid">
+                                    <div class="col s6 m3 offset-m2">
+                                        {{form.idiomas}}
+                                        <p>
+                                            <label>
+                                                <input type="checkbox" value='0' />
+                                                <span style="font-size: small;">Ingles</span>
+                                            </label>
+                                        </p>
+                                        <p>
+                                            <label>
+                                                <input type="checkbox" value='1' />
+                                                <span style="font-size: small;">Chino</span>
+                                            </label>
+                                        </p>
+                                    </div>
+                                    <div class="col s6 m3">
+                                        <p>
+                                            <label>
+                                                <input type="checkbox" value='2' />
+                                                <span style="font-size: small;">Alemán</span>
+                                            </label>
+                                        </p>
+                                        <p>
+                                            <label>
+                                                <input type="checkbox" value='3' />
+                                                <span style="font-size: small;">Francés</span>
+                                            </label>
+                                        </p>
+                                    </div>
+                                    <div class="col s12 m3">
+                                        <div class="row">
+                                            <div class="col s6 m12">
+                                                <p>
+                                                    <label>
+                                                        <input type="checkbox" value='4' />
+                                                        <span style="font-size: small;">Portugués</span>
+                                                    </label>
+                                                </p>
+                                            </div>
+                                            <div class="col s6 m12">
+                                                <p>
+                                                    <label>
+                                                        <input type="checkbox" value='5' />
+                                                        <span style="font-size: small;">Japonés</span>
+                                                    </label>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label>Algo mas sobre tí</label>
+                                        {{form.descripcion}}
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-12" style="text-align: center;">
+                                    <button id="btn-guardar" type="submit" class="btn btn-info">Guardar </button>
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+
+    <!-- CDN de Materialize JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <!-- scripts necesarios para el funcionamiento de los objetos de materialize -->
+    <script src="{% static 'js/WQuick.js' %}"></script>
+
+    <script>
+        //Habilitar la tecla tabulador para el textarea descripción (funcion de WQuick.js)
+        enableTab('txt-descripcion');
+
+        document.addEventListener('DOMContentLoaded', function () {
+            let navbar = document.getElementById('avatar');
+            if(navbar != null){
+                navbar.style = 'height: 45px; margin-top: -8px;';
+            }else{
+                let navbar = document.getElementsByName('avatar');
+                navbar[0].style = 'height: 45px; width: 45px; margin-top: -8px;';
+                navbar[0].className = 'circle';
+            }
+        });
+
+        var guardar = document.getElementById('btn-guardar');
+        guardar.onclick = (evento) => {
+            var listaIdiomas = document.getElementById('id_idiomas').options;
+            for (let i = 0; i < listaIdiomas.length; i++) {
+                listaIdiomas[i].selected = false;
+            }
+            idiomas = document.querySelectorAll('input[type="checkbox"]');
+            idiomas.forEach(chk_idioma => {
+                if (chk_idioma.checked) {
+                    listaIdiomas[chk_idioma.value].selected = true;
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>

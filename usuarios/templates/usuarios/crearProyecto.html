@@ -1,0 +1,212 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    {% include 'frames/head.html' %}
+    <link rel="stylesheet" href="{% static 'css/crearProyecto.css' %}">
+</head>
+
+<body>
+    {% include "frames/navbar.html" %}
+    <!--Contenido de la página-->
+    <main>
+        <form method="POST" id="frm_crearProyecto" class="form-register">
+            {% csrf_token %}
+            <div class="form-register__body">
+
+                <!--Primer formulario-->
+                <div class="card step active" id="step-1">
+
+                    <span class="card-title">
+                        <br>
+                        <div class="container-fluid center">
+                            <span style="color: white; font-size: 20px; font-weight: bold;">
+                                Creación de tu Proyecto
+                            </span>
+                        </div>
+                    </span>
+
+                    <div style="padding: 20px 15px 0;">
+                        {{ form.tipo }}
+                        <p>
+                            <label>
+                                <input name="categoria" type="radio" value="Programacion Web" checked />
+                                <span>Programacion Web</span>
+                            </label>
+                        </p>
+                        <p>
+                            <label>
+                                <input name="categoria" type="radio" value="Diseño" />
+                                <span>Diseño</span>
+                            </label>
+                        </p>
+                        <p>
+                            <label>
+                                <input name="categoria" type="radio" value="Tiendas Online" />
+                                <span>Tiendas Online</span>
+                            </label>
+                        </p>
+                        <p>
+                            <label>
+                                <input name="categoria" type="radio" value="Landing page" />
+                                <span>Landing page</span>
+                            </label>
+                        </p>
+                        <p>
+                            <label>
+                                <input name="categoria" type="radio" value="Aplicaciones Moviles" />
+                                <span>Aplicaciones Moviles</span>
+                            </label>
+                        </p>
+                        <p>
+                            <label>
+                                <input name="categoria" type="radio" value="Sistemas para Ordenadores" />
+                                <span>Sistemas para Ordenadores</span>
+                            </label>
+                        </p>
+                        <p>
+                            <label>
+                                <input name="categoria" type="radio" value="Servidores" />
+                                <span>Servidores</span>
+                            </label>
+                        </p>
+                        <p>
+                            <label>
+                                <input name="categoria" type="radio" value="Bases de Datos" />
+                                <span>Bases de Datos</span>
+                            </label>
+                        </p>
+                        <p>
+                            <label>
+                                <input name="categoria" type="radio" value="Infraestructura" />
+                                <span>Infraestructura</span>
+                            </label>
+                        </p>
+                        <p>
+                            <label>
+                                <input name="categoria" type="radio" value="Otros" />
+                                <span>Otros</span>
+                            </label>
+                        </p>
+                    </div>
+
+                    <div class="step__footer">
+                        <a class="waves-effect waves-light btn step__button step__button--next" data-to_step="2"
+                            data-step="1">
+                            Siguiente
+                        </a>
+                    </div>
+                </div>
+
+                <div class="card step" id="step-2">
+                    <span class="card-title black-text center">
+                        <br>
+                        <div class="container-fluid center">
+                            <span style="font-size: 20px;font-weight: bold;">
+                                Descripcion del proyecto
+                            </span>
+                        </div>
+                    </span>
+
+                    <div style="padding: 20px 15px 0;">
+                        <div class="materialert error" id="alert_titulo" style="display: none; width: 100%;">
+                            <div class="material-icons">error</div>Escriba un titulo
+                        </div>
+                        <div class="input-field">
+                            {{ form.titulo }}
+                            <label for="txt_titulo">Titulo del proyecto</label>
+                        </div>
+
+                        <br>
+
+                        <div class="materialert error" id="alert_descripcion" style="display: none; width: 100%;">
+                            <div class="material-icons">error</div>Escriba una descripción
+                        </div>
+                        {{ form.descripcion }}
+                    </div>
+
+                    <div class="step__footer">
+                        <a class="waves-effect waves-light btn step__button step__button--back" data-to_step="1"
+                            data-step="2">
+                            Anterior
+                        </a>
+
+                        <a class="waves-effect waves-light btn step__button step__button--next" data-to_step="3"
+                            data-step="2">
+                            Siguiente
+                        </a>
+                    </div>
+                </div>
+
+                <div class="card step" id="step-3">
+
+                    <span class="card-title black-text center">
+                        <br>
+                        <div class="container-fluid center">
+                            <span style="font-size: 20px;font-weight: bold;">
+                                Información adicional
+                            </span>
+                        </div>
+                    </span>
+
+                    <div style="padding: 20px 15px 0;">
+                        <div class="input-field col s12">
+                            {{ form.xp }}
+                            <label>Experiencia profesional</label>
+                        </div>
+                        
+                        <div class="row">
+                            {% if form.presupuesto.errors %}
+                            <label class="red-text">{{ form.presupuesto.errors.as_text }}</label>
+                            {% endif %}
+                            <div class="col s12">
+                                <label>Presupuesto</label>  
+                            </div>
+                            <div class="input-field col s2">                      
+                                {{ form.moneda }}   
+                            </div>
+                            <div class="col s10">
+                                {{ form.presupuesto }}
+                            </div>
+                           </div>
+
+                        <div class="input-field">
+                            {{ form.fecha }}
+                            <label for="data">Fecha en que necesitas tu Proyecto</label>
+                        </div>
+                    </div>
+
+                    <div class="step__footer">
+                        <a class="waves-effect waves-light btn step__button step__button--back" data-to_step="2"
+                            data-step="3">
+                            Anterior
+                        </a>
+
+                        <button id="btnCrear" class="btn waves-effect waves-light" type="submit" name="action">
+                            Crear
+                            <i class="material-icons right">send</i>
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+
+            <ul class="progressbar" style="font-weight: bold;">
+                <li class="progressbar__option active"><span class="white-text">paso 1</span></li>
+                <li class="progressbar__option"><span class="white-text">paso 2</span></li>
+                <li class="progressbar__option"><span class="white-text">paso 3</span></li>
+            </ul>
+
+        </form>
+    </main>
+
+    <!-- CDN de Materialize JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <!-- Inicializar todos los js de materialize-->
+    <script src="{% static 'js/WQuick.js' %}"></script>
+    <!-- Eventos para el formulario crear proyecto -->
+    <script src="{% static 'js/crearProyecto.js' %}"></script>
+</body>
+
+</html>

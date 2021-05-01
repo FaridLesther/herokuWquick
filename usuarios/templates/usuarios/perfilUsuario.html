@@ -1,0 +1,258 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    {% include 'frames/head.html' %}
+    <link rel="stylesheet" href="{% static 'css/banderas.css' %}">
+</head>
+
+<body>
+    {% include 'frames/navbar.html' %}
+    {% include 'frames/sidebar.html' %}
+
+    <main>
+        <div class="row mcard">
+            <div class="col s12 m10 offset-m1">
+                <section style="padding: 20px;">
+                    <div class="container-fluid">
+                        <div class="row">
+
+                            {% if freelancer %}
+                            <div class="col s12 m5 offset-m1">
+                                <div class="container-fluid" style="margin-bottom: 20px;">
+                                    <label style="font-size: 20px;">Datos de freelancer</label>
+                                </div>
+                                <div class="row">
+                                    <div class="col s1">
+                                        <i class="material-icons" ;>description</i>
+                                    </div>
+                                    <div class="col s11">
+                                        <label style="font-size: 15px;">Nombre:
+                                            <span>{{freelancer.nombre|escape}}</span>
+                                            <a href="{% url 'editarPerfil' %}"
+                                                class="waves-effect waves-light btn-small grey darken-2">
+                                                Editar
+                                            </a>
+                                        </label>
+                                    </div>
+                                    <div class="col s12"><br></div>
+
+                                    <div class="col s1">
+                                        <i class="material-icons">description</i>
+                                    </div>
+                                    <div class="col s11">
+                                        <label style="font-size: 15px;">Apellido:
+                                            <span>{{freelancer.apellido|escape}}</span></label>
+                                    </div>
+                                    <div class="col s12"><br></div>
+
+                                    <div class="col s1">
+                                        <i class="material-icons">work</i>
+                                    </div>
+                                    <div class="col s11">
+                                        <label style="font-size: 15px;">Profesión:
+                                            <span class="grey-text ">
+                                                <span>{{freelancer.profesion|escape}}</span></span></label>
+                                    </div>
+                                    <div class="col s12"><br></div>
+
+                                    <div class="col s1">
+                                        <i class="material-icons">work</i>
+                                    </div>
+                                    <div class="col s11">
+                                        <label style="font-size: 15px;">Experiencia profesional:
+                                            {% if freelancer.xp == 1 %}
+                                            <span>{{'Básico'}}</span>
+                                            {% endif %}
+                                            {% if freelancer.xp == 2 %}
+                                            <span>{{'Medio'}}</span>
+                                            {% endif %}
+                                            {% if freelancer.xp == 3 %}
+                                            <span>{{'Intermedio'}}</span>
+                                            {% endif %}
+                                            {% if freelancer.xp == 4 %}
+                                            <span>{{'Avanzado'}}</span>
+                                            {% endif %}
+                                        </label>
+                                    </div>
+                                    <div class="col s12"><br></div>
+
+                                    <div class="col s1">
+                                        <i class="material-icons">mail</i>
+                                    </div>
+                                    <div class="col s11">
+                                        <label style="font-size: 15px;">Correo
+                                            electrónico: <span>{{freelancer.correo|escape}}</span></label>
+                                    </div>
+                                    <div class="col s12"><br></div>
+
+                                    <div class="col s1">
+                                        <i class="material-icons">call</i>
+                                    </div>
+                                    <div class="col s11">
+                                        <label style="font-size: 15px;">Correo
+                                            Teléfono: <span>{{freelancer.telefono|escape}}</span></label>
+                                    </div>
+                                    <div class="col s12"><br></div>
+
+                                    {% if freelancer.idiomas %}
+                                    <div class="col s1">
+                                        <i class="material-icons">
+                                            language
+                                        </i>
+                                    </div>
+                                    <div class="col s11">
+                                        <label style="font-size: 15px; margin-left: 10px;">
+                                            Lenguajes:
+                                        </label>
+
+                                        <div class="row">
+                                            {% for lenguaje in freelancer.idiomas %}
+                                            <div class="col s6 m4">
+                                                <label {% if lenguaje == 'Ingles' %}
+                                                    class="container-fluid inglaterra bandera black-text" {% endif %}
+                                                    {% if lenguaje == 'Alemán' %}
+                                                    class="container-fluid alemania bandera black-text" {% endif %}
+                                                    {% if lenguaje == 'Francés' %}
+                                                    class="container-fluid francia bandera black-text" {% endif %}
+                                                    {% if lenguaje == 'Chino' %}
+                                                    class="container-fluid china bandera black-text" {% endif %}
+                                                    {% if lenguaje == 'Japonés' %}
+                                                    class="container-fluid japon bandera black-text" {% endif %}
+                                                    {% if lenguaje == 'Portugués' %}
+                                                    class="container-fluid portugal bandera black-text" {% endif %}
+                                                    style="width: 20px; height: 15px; margin-bottom: -15px;">
+                                                    <span style="margin-left: 23px;"></span><span
+                                                        style="color: white">{{lenguaje|escape}}</span>
+                                                </label>
+                                            </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                    <div class="col s12"></div>
+                                    {% endif %}
+
+                                    <div class="col s1">
+                                        <i class="material-icons">short_text</i>
+                                    </div>
+                                    <div class="col s11">
+                                        <label style="font-size: 15px;">Descripción:</label>
+                                        <div class="container-fluid">
+                                            <textarea disabled
+                                                style="height: 150px; resize: none; border: none;">{{freelancer.descripcion}}</textarea>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            {% endif %}
+
+                            <div {% if not freelancer %} class="col s12 m6 offset-m3" {% else %} class="col s12 m6"
+                                {% endif %} style="margin-bottom: 20px;">
+                                <div class="container-fluid" {% if not freelancer %}
+                                    style="margin-bottom: 20px; text-align: center;" {% else %}
+                                    style="margin-bottom: 20px;" {% endif %}>
+                                    <label style="font-size: 20px;">Datos de usuario</label>
+                                </div>
+                                <div class="row">
+                                    <div class="col s1">
+                                        <i class="material-icons">account_box</i>
+                                    </div>
+                                    <div class="col s11">
+                                        <label style="font-size: 15px;">Nombre de
+                                            usuario: <span>{{user.nombre|escape}}</span></label>
+                                    </div>
+                                    <div class="col s12"><br></div>
+                                    <div class="col s1">
+                                        <i class="material-icons">mail</i>
+                                    </div>
+                                    <div class="col s11">
+                                        <label style="font-size: 15px;">Correo
+                                            electrónico: <span>{{user.correo|escape}}</span></label>
+                                    </div>
+                                    <div class="col s12"></div>
+                                </div>
+
+                                {% if form.campo.errors %}
+                                <a id="alerta" class="alerta" style="display: none;"
+                                    onclick="alerta('<span>{{form.campo.errors.as_text}}</span>')">Toast!</a>
+                                {% endif %}
+
+                                <form method="POST" id="frm-cambiarPass">{% csrf_token %}
+                                    {{form.campo}}
+                                    <button id="btn-guardar" class="btn-small grey darken-2"
+                                        style="display: none;">Guardar</button>
+                                    <button id="btn-cambiar" class="btn-small grey darken-2">Cambiar contraseña
+                                    </button>
+
+                                    <div class="input-field col s12">
+                                        <i class="material-icons prefix">vpn_key</i>
+                                        {{form.aClave}}
+                                        <label for="txt-clave">Actual contraseña</label>
+                                    </div>
+
+                                    <div class="input-field col s12">
+                                        <i class="material-icons prefix">vpn_key</i>
+                                        {{form.password}}
+                                        <label for="txt-nclave">Nueva contraseña</label>
+                                    </div>
+
+                                    <div class="input-field col s12">
+                                        <i class="material-icons prefix">vpn_key</i>
+                                        {{form.confirmarClave}}
+                                        <label for="txt-cclave">Confirmar contraseña</label>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <script src="{% static 'js/WQuick.js' %}"></script>
+    {% include 'frames/autocomplete.html' %}
+    <script>
+        alertas = document.getElementsByClassName('alerta');
+        for (let i = 0; i < alertas.length; i++) {
+            alertas[i].click();
+        }
+
+        var tel = document.getElementById('txt-campo');
+        tel.value = '{{user.id}}';
+
+        function desHabilitar(valor = true) {
+            document.getElementById('txt-clave').disabled = valor;
+            document.getElementById('txt-cclave').disabled = valor;
+            document.getElementById('txt-nclave').disabled = valor;
+        }
+
+        var btnCambiar = document.getElementById('btn-cambiar');
+        var btnGuardar = document.getElementById('btn-guardar')
+        btnCambiar.onclick = (evento) => {
+            evento.preventDefault();
+            if (btnCambiar.innerHTML != 'Cancelar') {
+                btnCambiar.innerHTML = 'Cancelar';
+                btnGuardar.style.display = 'inline-flex'
+                desHabilitar(false)
+            } else {
+                btnCambiar.innerHTML = 'Cambiar Contraseña';
+                btnGuardar.style.display = 'none';
+                desHabilitar(true)
+            }
+        }
+
+        btnGuardar.onclick = (evento) => {
+            let clave = document.getElementById('txt-cclave').value;
+            let clave1 = document.getElementById('txt-nclave').value;
+            if (clave != clave1) {
+                evento.preventDefault();
+                alerta('Las nuevas contraseñas no coinciden', 'red')
+            }
+        }
+    </script>
+</body>
+
+</html>
