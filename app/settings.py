@@ -121,6 +121,7 @@ LOGOUT_REDIRECT_URL = reverse_lazy('inicio')
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
 
 MEDIA_URL = '/media/'
@@ -133,9 +134,9 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-EMAIL_BACKEND= "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_USE_TLS=True
-EMAIL_HOST="smtp.gmail.com"
-EMAIL_HOST_USER="wquick.soft@gmail.com"
-EMAIL_HOST_PASSWORD="industria2021"
-EMAIL_PORT=587
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_USE_TLS = True
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_HOST_USER = "wquick.soft@gmail.com"
+EMAIL_HOST_PASSWORD = "industria2021"
+EMAIL_PORT = 587
