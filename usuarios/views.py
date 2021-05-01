@@ -41,10 +41,10 @@ class Registrar(CreateView):
             Te damos la bienvenida {nombre} a WQuick
             
             Puedes acceder a tu cuenta de WQuick iniciando sesión
-            en el siguiente enlace: https://industriawquick.herokuapp.com/login
+            en el siguiente enlace: https://industriawquick.herokuapp.com/{reverse_lazy('inicio')}
 
             Te invitamos a que publiques tus proyectos o trabajes como freelancer con los
-            servicios que ofrecemos: https://industriawquick.herokuapp.com/elige
+            servicios que ofrecemos: https://industriawquick.herokuapp.com/{reverse_lazy('elige')}
 
             Fecha de registro: {datetime.datetime.now().strftime('%d/%m/%Y')}
         """
