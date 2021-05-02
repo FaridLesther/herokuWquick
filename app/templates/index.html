@@ -5,6 +5,7 @@
     {% include "frames/head.html" %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="materialize-social.css">
 </head>
 <body>
     {% include "frames/navbar.html" %}
@@ -14,7 +15,7 @@
                 <h1 class="title">La mejor <span class="title--active">Experiencia Digital.</span></h1> 
                 <p class="copy">Te ayudamos a hacer realidad <span class="copy__active">tus proyectos</span></p>
                 {% if user.nombre %}
-                    <a href="crearProyecto" class="cta">¡Comienza tu proyecto!</a>
+                    <a href="elige" class="cta">¡Comienza ya!</a>
                     {% else %}
                     <span class="copy">¡Inicia ya! </span>
                     <a href="registrar" class="cta">Regístrate</a>
@@ -23,15 +24,14 @@
                 {% endif %}
             </div>
                 <img src="{% static 'img/slider2/1.png' %}" class="mockup">
-           <!-- <img src="{% static 'img/mockup.png' %}" class="mockup">-->
+
         </section>
     </header>
     <main>
-        <section class="services">
-            <div style="background: --black1" class="container">
-                <h2 class="subtitle">Puedes encontrar profesionales altamente capacitados<span class="point">.</span></h2>
-                <p class="copy__section">según las necesidades de tu proyecto en distintas áreas dentro de la revolución digital</p>
-
+        <section class="services" style="background-color: #212121 ;">
+            <div  class="container" style="background-color: #212121 ;">
+                <h2 class="subtitle" style="color: white;">Serás parte de la comunidad de profesionales mejor capacitados<span class="point">.</span></h2>
+                <p class="copy__section" style="color: #F4BD76;">Puedes demostrar tus habilidades en distintas áreas dentro de la revolución digital</p>
                 <article class="container-cards">
                     <div class="card">
                         <img src="{% static 'img/slider/1.jpg' %}" class="card__img">
@@ -39,7 +39,7 @@
                             <p class="card__list">Especialistas en diseño UX / UI</p>
                             <h3 class="card__title">Diseño web<span class="point">.</span></h3>
                             <p class="card__copy">Encuentra profesionales capacitados en el área de diseño de interfaces </p>
-                            <a href="" class="card__button">Comienza tu proyecto</a>
+                            <a href="serFreelancer" class="card__button">Inscríbete como freelancer</a>
                         </div>
                     </div>
                     <div class="card">
@@ -48,7 +48,7 @@
                             <p class="card__list">Especialistas en desarrollo web</p>
                             <h3 class="card__title">Web apps<span class="point">.</span></h3>
                             <p class="card__copy">Si necesitas una sitio web para tu empresa o negocio, aquí puedes encontrar profesionales en la materia</p>
-                            <a href="registrar" class="card__button">Comienza tu proyecto</a>
+                            <a href="serFreelancer" class="card__button">Inscríbete como freelancer</a>
                         </div>
                     </div>
                     <div class="card">
@@ -57,65 +57,47 @@
                             <p class="card__list">Diseñadores gráficos</p>
                             <h3 class="card__title">Creatividad y Diseño<span class="point">.</span></h3>
                             <p class="card__copy">Las mentes más creativas y revolucionarias las encontrarás con nosotros</p>
-                            <a href="registrar" class="card__button">Comienza tu proyecto</a>
+                            <a href="serFreelancer" class="card__button">Inscríbete como freelancer</a>
                         </div>
                     </div>
                 </article>
             </div>
         </section>
-        <section class="projects container">
-            <h2 class="subtitle">Proyectos recientes<span class="point">.</span></h2>
-            <p class="copy__section">Hemos colaborado con marcas reconocidas a nivel mundial</p>
-            <article class="container-bg">
-                <div class="card">
-                    <div class="cards__text">
-                        <h3 class="card__title">Diseño web<span class="point">.</span></h3>
-                        <p class="card__date">24 de agosto 2020</p>
-                        <p class="card__copy">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel dolorum sit molestias ipsam at veritatis ut esse eius, dolor est!</p>
-                        <a href="#" class="card__button">Comienza tu proyecto</a>
-                    </div>
-                </div>
-                <div class="background">
-                    <div class="background__text">
-                        <h3 class="background__title">La educación en linea</h3>
-                        <p class="background__copy">La realidad aumentada transformará por completo la educación</p>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="cards__text">
-                        <h3 class="card__title">Diseño web<span class="point">.</span></h3>
-                        <p class="card__date">24 de agosto 2020</p>
-                        <p class="card__copy">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel dolorum sit molestias ipsam at veritatis ut esse eius, dolor est!</p>
-                        <a href="#" class="card__button">Comienza tu proyecto</a>
-                    </div>
-                </div>
-                <div class="background">
-                    <div class="background__text">
-                        <h3 class="background__title">La educación en linea</h3>
-                        <p class="background__copy">La realidad aumentada transformará por completo la educación</p>
-                    </div>
-                </div>
-            </article>
-        </section>
+    <!--    <section class="services" style="background-color: #212121 ;">
+            <div  class="container" style="background-color: #212121 ;">
+                <h2 class="subtitle" style="color: white;">Proyectos recientes<span class="point">.</span></h2>
+                <p class="copy__section" style="color: #F4BD76;">Hemos colaborado con marcas reconocidas a nivel mundial</p>
+                <article class="container-cards">
+                    <div class="card">
+                        {{ datos }}
 
-        <section class="email container container--modifier">
-            <h2 class="subtitle subtitle--modifier">Somos tu mejor opción para adoptar la transformación digital<span class="point">.</span></h2>
 
-            <p class="copy__section copy__section--modifier">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ab, et dolore id necessitatibus quibusdam rem accusamus fugiat doloremque voluptatibus eius!</p>
 
+
+
+                        <div class="cards__text">
+                            <a href="crearProyecto" class="card__button">Inicia tu proyecto</a>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>-->
+        <section class="email container container--modifier" style="background-color: #212121;">
+            <h2 class="subtitle subtitle--modifier" style="color: white;">Somos tu mejor opción para adoptar la transformación digital<span class="point">.</span></h2>
+            <p class="copy__section copy__section--modifier" style="color: white;">Aquí encontrarás a los mejores profesionales en distintas areas que necesites para tu proyecto y las mejores oprtunidades si eres un trabajador independiente y te gusta aceptar nuevos retos, WQuick es para ti </p>
             <div class="check">
                 <div class="check__item">
                     <i class='bx bx-check' ></i>
                     <div class="check__numbers">
-                        <p class="check__number">+200</p>
-                        <p class="check__copy">Trabajadores freelancers</p>
+                        <p class="check__number" style="color: white;">+200</p>
+                        <p class="check__copy" style="color: white;">Trabajadores freelancers</p>
                     </div>
                 </div>
                 <div class="check__item">
                     <i class='bx bx-check' ></i>
                     <div class="check__numbers">
-                        <p class="check__number">+200</p>
-                        <p class="check__copy">Proyectos exitosos</p>
+                        <p class="check__number" style="color: white;">+200</p>
+                        <p class="check__copy" style="color: white;">Proyectos exitosos</p>
                     </div>
                 </div>
 
