@@ -1,7 +1,13 @@
 <!-- CDN de Materialize JavaScript -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 <script>
-    var busqueda = {{ busqueda|safe }};
+    '{% if busqueda %}'
+    {{"var busqueda ="}} {{ busqueda|safe }};
+    '{% else %}'
+    var busqueda = {
+        'no hay proyectos': ''
+    };
+    '{% endif %}'
 
     document.addEventListener('DOMContentLoaded', () => {
         let buscar = document.querySelectorAll('.autocomplete');
@@ -15,7 +21,6 @@
                     evento.preventDefault();
                     realizarBusqueda();
                 }
-            })
-        )
+            }))
     });
 </script>

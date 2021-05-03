@@ -120,20 +120,6 @@ class FrmCrearProyecto(forms.ModelForm):
     #  Autor: Lesther Valladares
     #  Version: 0.0.1
     #  modelo: Proyecto
-
-    nivelesXP = (
-        (1, "Básico"),
-        (2, "Medio"),
-        (3, "Intermedio"),
-        (4, "Avanzado"),
-    )
-
-    moneda = (
-        ('L.', 'L.'),
-        ('$.', '$.'),
-        ('€.', '€.'),
-    )
-
     tipo = forms.CharField(max_length=30)
     tipo.widget.attrs['style'] = 'display: none;'
     tipo.widget.attrs['id'] = 'txt_tipo'
@@ -143,8 +129,19 @@ class FrmCrearProyecto(forms.ModelForm):
     fecha.widget.attrs['class'] = 'datepicker'
     fecha.widget.attrs['onkeypress'] = 'return false;'
 
+    nivelesXP = (
+        (1, "Básico"),
+        (2, "Medio"),
+        (3, "Intermedio"),
+        (4, "Avanzado"),
+    )
     xp = forms.ChoiceField(label='Elija una opción', choices=nivelesXP)
 
+    moneda = (
+        ('L.', 'L.'),
+        ('$.', '$.'),
+        ('€.', '€.'),
+    )
     moneda = forms.ChoiceField(label='Moneda', choices=moneda)
 
     #  Modelo del cual sera construido el formulario: Proyecto
@@ -534,11 +531,44 @@ class FrmEditarFreelancer(forms.ModelForm):
 
 class FrmEditarProyecto(forms.ModelForm):
     #  Formulario de edicion de proyectos en la base de datos
+    fecha = forms.CharField(required=True)
+    fecha.widget.attrs['id'] = 'data'
+    fecha.widget.attrs['class'] = 'datepicker'
+    fecha.widget.attrs['onkeypress'] = 'return false;'
+
+    categorias = (
+        ('Programacion Web', 'Programacion Web'),
+        ('Diseño', 'Diseño'),
+        ('Tiendas Online', 'Tiendas Online'),
+        ('Landing page', 'Landing page'),
+        ('Aplicaciones Moviles', 'Aplicaciones Moviles'),
+        ('Sistemas para Ordenadores', 'Sistemas para Ordenadores'),
+        ('Servidores', 'Servidores'),
+        ('Bases de Datos', 'Bases de Datos'),
+        ('Infraestructura', 'Infraestructura'),
+        ('Otros', 'Otros'),
+    )
+    tipo = forms.ChoiceField(choices=categorias)
+
+    xp = (
+        (1, 'Básico'),
+        (2, 'Medio'),
+        (3, 'Intermedio'),
+        (4, 'Avanzado'),
+    )
+    xp = forms.ChoiceField(choices=xp)
+
+    moneda = (
+        ('L.', 'L.'),
+        ('$.', '$.'),
+        ('€.', '€.'),
+    )
+    moneda = forms.ChoiceField(label='Moneda', choices=moneda)
     #  modelo: Proyectos
+
     class Meta:
         model = models.Proyecto
-        fields = ('titulo', 'tipo', 'descripcion',
-                  'xp', 'fecha_inicio', 'fecha_fin')
+        fields = ('titulo', 'descripcion', 'presupuesto')
         widgets = {
             'titulo': forms.TextInput(
                 attrs={
@@ -547,39 +577,43 @@ class FrmEditarProyecto(forms.ModelForm):
                     'required': 'required',
                 }
             ),
-            'tipo': forms.TextInput(
-                attrs={
-                    'class': 'grey-text text-lighten-2',
-                    'type': 'text',
-                    'required': 'required',
-                }
-            ),
-            'xp': forms.TextInput(
-                attrs={
-                    'class': 'grey-text text-lighten-2',
-                    'type': 'text',
-                    'required': 'required',
-                }
-            ),
             'descripcion': forms.Textarea(
                 attrs={
-                    'rows': '5',
-                    'class': 'grey-text text-lighten-2',
-                    'id': 'txt-descripcion',
-                    'placeholder': 'Proporciona una breve descripcion acerca de tu proyecto',
-                    'style': 'width: 100%;',
+                    'class': 'grey darken-4 grey-text text-lighten-2',
+                    'placeholder': 'Descipción del Proyecto',
+                    'style': 'max-width: 100%; height:135px;border: 1px dotted #848484; color: #fb8c00;',
                     'required': 'required',
+                }
+            ),
+            'presupuesto': forms.TextInput(
+                attrs={
+                    'class': 'validate grey-text text-lighten-2',
+                    'type': 'number',
+                    'style': 'margin-top: 15px;',
+                    'required': 'required',
+                    'value': '1000',
                 }
             ),
         }
 
-    def save(self, commit=True, usuario=-1):
+    def save(self, commit=True, idProyecto=-1):
         try:
-            proyecto = models.Proyecto.objects.get(usuario_id=usuario)
+            proyecto = models.Proyecto.objects.get(pk=idProyecto)
+            
             proyecto.titulo = self.cleaned_data.get('titulo')
             proyecto.descripcion = self.cleaned_data.get('descripcion')
             proyecto.tipo = self.cleaned_data.get('tipo')
             proyecto.xp = self.cleaned_data.get('xp')
+            proyecto.fecha_inicio = datetime.now()
+
+            fecha_fin = self.cleaned_data.get('fecha')
+            fecha_fin = fecha_fin + \
+                time.strftime(' %H:%M:%S', time.localtime())
+            fecha_fin = datetime.strptime(fecha_fin, '%d-%m-%Y %H:%M:%S')
+            proyecto.fecha_fin = fecha_fin
+
+            proyecto.moneda = self.cleaned_data.get('moneda')
+            proyecto.presupuesto = self.cleaned_data.get('presupuesto')
             if commit:
                 proyecto.save()
         except models.Proyecto.DoesNotExist:

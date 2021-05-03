@@ -1,51 +1,97 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     {% include 'frames/head.html' %}
 </head>
+
 <body>
     {% include 'frames/navbar.html' %}
     {% include 'frames/sidebar.html' %}
     <main>
-        <div class="row mcard">
-            <div class="col s12 m10 offset-m1">
-                <section style="padding: 5px;">
-                    <div class="row">
-                        <div class="col s12 m10 offset-m1">
-                            <div class="container-fluid">
-                                <form id="frm-editarproyecto" method="POST">{% csrf_token %}
-                                    <div class="container-fluid center">
-                                        <label style="font-size: 20px;">Edita tu proyecto</label>
-                                        <br><br>
-                                    </div>
+        <div class="row mcard" style="padding-left: 2%; padding-right: 2%;">
+            <div class="card col s12 m10 offset-m1">
+                <div class="card-title center">
+                    <label style="font-size: 20px;">Edita tu proyecto</label>
+                    <br>
+                </div>
 
-                                    <div class="col s12 m6">
-                                        <div class="input-field col s12">
-                                            <i class="material-icons prefix">description</i>
-                                            {{form.titulo}}
-                                            <label for="id_titulo">Titulo</label>
-                                        </div>
+                <div class="card-content">
+                    <form id="frm-editarproyecto" method="POST">{% csrf_token %}
+                        <div class="input-field col s12 m6">
+                            <i class="material-icons prefix">book</i>
+                            {{form.tipo}}
+                            <label for="id_tipo">Tipo</label>
+                        </div>
+                        
+                        <div class="input-field col s12 m6">
+                            <i class="material-icons prefix">title</i>
+                            {{form.titulo}}
+                            <label for="id_titulo">Titulo</label>
+                        </div>
+                        <div class="input-field col s12 m6">
+                            <i class="material-icons prefix">work</i>
+                            {{form.xp}}
+                            <label for="id_xp">Experiencia profesional</label>
+                        </div>
 
-                                        <div class="input-field col s12">
-                                            <i class="material-icons prefix">description</i>
-                                            {{form.tipo}}
-                                            <label for="txt-tipo">Tipo</label>
-                                        </div>
+                        <div class="col s12 m6">
+                            <div class="input-field">
+                                {{ form.fecha }}
+                                <label for="data">Fecha en que necesitas tu Proyecto</label>
+                            </div>
+                        </div>
 
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <label>Nivel de Experiencia</label>
-                                                {{form.xp}}
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="col s11">
-                                            <label class="grey-text text-lighten-1"
-                                                style="font-size: 15px;">Descripción:</label>
-                                            <div>
-                                                {{form.descripcion}}
-                                            </div>
-                                        </div>
+                        <div class="input-field col s5 m2">
+                            <i class="material-icons prefix">money</i>
+                            {{form.moneda}}
+                            <label for="id_moneda">Presupuesto</label>
+                        </div>
+
+                        <div class="col s7 m4">
+                            {{form.presupuesto}}
+                        </div>
+
+                        <div class="col s12">
+                            <label for="id_descripcion" class="grey-text text-lighten-1">Descripción:</label>
+                            <div>
+                                {{form.descripcion}}
+                            </div>
+                        </div>
+
+                        <div class="col s12"><br></div>
+                        <div class="container-fluid center">
+                            <div class="col s8 offset-s2">
+                                <button id="btn-guardar" class="btn">Guardar</button>
+                            </div>
+                            <div class="col s12"><br></div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </main>
+
+    <script src="{% static 'js/WQuick.js' %}"></script>
+    {% include 'frames/autocomplete.html' %}
+    <script>
+        var tipo = '{{proyecto.tipo|escape}}'
+        var titulo = '{{proyecto.titulo|escape}}'
+        var xp = '{{proyecto.xp|escape}}'
+        var fecha = '{{fecha|escape}}'
+        var moneda = '{{proyecto.moneda|escape}}'
+        var presupuesto = '{{proyecto.presupuesto|escape}}'
+        var descripcion = `{{proyecto.descripcion|escape}}`
+
+        document.getElementById('id_presupuesto').value = presupuesto;
+        document.getElementById('id_titulo').value = titulo;
+        document.getElementById('id_tipo').value = tipo;
+        document.getElementById('id_moneda').value = moneda;
+        document.getElementById('data').value = fecha;
+        document.getElementById('id_descripcion').value = descripcion;
+        document.getElementById('id_xp').value = xp;
+    </script>
 </body>
+
 </html>

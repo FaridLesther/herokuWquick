@@ -1,4 +1,5 @@
 import datetime
+import time
 import os
 from django.conf import settings
 from django.shortcuts import render, redirect
@@ -39,7 +40,7 @@ class Registrar(CreateView):
         remitente = settings.EMAIL_HOST_USER
         contenido = f"""
             Te damos la bienvenida {nombre} a WQuick
-            
+
             Puedes acceder a tu cuenta de WQuick iniciando sesión
             en el siguiente enlace: https://industriawquick.herokuapp.com{reverse_lazy('login')}
 
@@ -249,13 +250,42 @@ class EditarProyecto(CreateView):
     form_class = forms.FrmEditarProyecto
     success_url = reverse_lazy('misProyectos')
 
+    def get(self, *args, **kwargs):
+        if self.request.GET.get('proyecto'):
+            idProyecto = self.request.GET.get('proyecto')
+            if self.request.GET.get('eliminar'):
+                try:
+                    proyecto = models.Proyecto.objects.get(pk=idProyecto)
+                    proyecto.delete()
+                except models.Proyecto.DoesNotExist:
+                    proyecto = None
+                return redirect(self.success_url)
+        return super(EditarProyecto, self).get(*args, **kwargs)
+
     def form_valid(self, form):
-        proyecto = form.save(True, self.request.proyecto.id)
+        eliminar = False
+        if self.request.GET.get('proyecto'):
+            idProyecto = self.request.GET.get('proyecto')
+        else:
+            return redirect(self.success_url)
+        proyecto = form.save(True, idProyecto)
         return redirect(self.success_url)
 
     def get_context_data(self, **kwargs):
         context = super(EditarProyecto, self).get_context_data(**kwargs)
         context['titulo'] = 'Editar mi Proyecto'
+
+        proyecto = False
+        if self.request.GET.get('proyecto'):
+            idProyecto = self.request.GET.get('proyecto')
+            proyecto = models.Proyecto.objects.filter(pk=idProyecto).values()
+        if proyecto:
+            fecha = str(proyecto[0]['fecha_fin'])
+            soloFecha = fecha.split(" ")[0].split("-")
+            # Formato de fecha d/m/yyyy se logra con el reverso de yyyy/m/d
+            fechaConFormato = "-".join(reversed(soloFecha))
+            context['fecha'] = fechaConFormato
+            context['proyecto'] = proyecto[0]
         return context
 
 
